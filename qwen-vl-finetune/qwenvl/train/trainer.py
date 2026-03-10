@@ -202,20 +202,21 @@ def qwen3vl_forward(
 
 def return_mask(
     config,
-    input_embeds,
-    attention_mask,
-    cache_position,
-    past_key_values,
-    position_ids,
-    **kwargs
+    inputs_embeds=None,
+    attention_mask=None,
+    cache_position=None,
+    past_key_values=None,
+    position_ids=None,
+    **kwargs,
 ):
+    # Keep signature aligned with recent transformers versions where
+    # `inputs_embeds` is passed by keyword.
     return attention_mask
 
 
 def replace_qwen2_vl_attention_class():
     import transformers
     import transformers.modeling_flash_attention_utils
-
 
     transformers.models.qwen2_vl.modeling_qwen2_vl.Qwen2VLAttention.forward = (
         qwen2vl_forward

@@ -143,7 +143,7 @@ def _build_messages(item: Dict[str, Any], base_path: Path) -> List[Dict[str, Any
     if isinstance(images, str):
         images = [images]
 
-    videos = item.get("video") or []
+    videos = item.get("videos") or []
     if isinstance(videos, str):
         videos = [videos]
 
@@ -174,6 +174,9 @@ def _build_messages(item: Dict[str, Any], base_path: Path) -> List[Dict[str, Any
                     content.append(image_pool.pop(0))
                 elif seg == "<video>":
                     if not video_pool:
+                        print(text)
+                        print(video_pool)
+                        print(len(text_parts))
                         raise ValueError(
                             "Number of <video> placeholders exceeds the number of provided videos"
                         )
