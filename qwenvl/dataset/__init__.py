@@ -31,6 +31,11 @@ VIDEOREWARD = {
     "data_path": "./data",
 }
 
+VIDEOREWARD_EVAL = {
+    "annotation_path": "./data/eval.json",
+    "data_path": "./data",
+}
+
 data_dict = {
     "cambrian_737k": CAMBRIAN_737K,
     "cambrian_737k_pack": CAMBRIAN_737K_PACK,
@@ -38,6 +43,7 @@ data_dict = {
     "clevr_mc": CLEVR_MC,
     "videochatgpt": VIDEOCHATGPT,
     "videoreward": VIDEOREWARD,
+    "videoreward_eval": VIDEOREWARD_EVAL,
 }
 
 

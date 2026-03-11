@@ -55,7 +55,7 @@ The customized data should have the format like:
 1. **Single Image Example**:
 ```json
 {
-    "image": "images/001.jpg",
+    "images": "images/001.jpg",
     "conversations": [
         {
             "from": "human",
@@ -72,7 +72,7 @@ The customized data should have the format like:
 2. **Multi-Image Example**:
 ```json
 {
-    "image": ["cats/001.jpg", "cats/002.jpg"],
+    "images": ["cats/001.jpg", "cats/002.jpg"],
     "conversations": [
         {
             "from": "human",
@@ -89,7 +89,7 @@ The customized data should have the format like:
 3. **Video Example**:
 ```json
 {
-    "video": "videos/005.mp4",
+    "videos": "videos/005.mp4",
     "conversations": [
         {
             "from": "human",
@@ -106,7 +106,7 @@ The customized data should have the format like:
 4. **Grounding Example**:
 ```json
 {
-    "image": "demo/COCO_train2014_000000580957.jpg",
+    "images": "demo/COCO_train2014_000000580957.jpg",
     "conversations": [
         {
             "from": "human",
@@ -124,7 +124,7 @@ The customized data should have the format like:
 ```json
 [
     {
-        "image": "images/001.jpg",
+        "images": "images/001.jpg",
         "conversations": [
             {
                 "from": "human",
@@ -137,7 +137,7 @@ The customized data should have the format like:
         ]
     },
     {
-        "image": "images/002.jpg",
+        "images": "images/002.jpg",
         "conversations": [
             {
                 "from": "human",

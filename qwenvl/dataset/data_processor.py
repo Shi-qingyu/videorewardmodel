@@ -137,9 +137,9 @@ def update_processor_pixels(processor, data_args):
     return processor
 
 
-def _build_messages(item: Dict[str, Any], base_path: Path) -> List[Dict[str, Any]]:
+def _build_messages(item: Dict[str, Any], base_path: Path, using_cot: bool = True) -> List[Dict[str, Any]]:
     # Extract and normalize images and videos
-    images = item.get("image") or []
+    images = item.get("images") or []
     if isinstance(images, str):
         images = [images]
 
@@ -174,9 +174,6 @@ def _build_messages(item: Dict[str, Any], base_path: Path) -> List[Dict[str, Any
                     content.append(image_pool.pop(0))
                 elif seg == "<video>":
                     if not video_pool:
-                        print(text)
-                        print(video_pool)
-                        print(len(text_parts))
                         raise ValueError(
                             "Number of <video> placeholders exceeds the number of provided videos"
                         )
@@ -187,6 +184,8 @@ def _build_messages(item: Dict[str, Any], base_path: Path) -> List[Dict[str, Any
             messages.append({"role": role, "content": content})
         else:
             # Assistant messages contain only text
+            if not using_cot:
+                text = re.sub(r'<think>.*?</think>', '', text, flags=re.DOTALL)
             messages.append({"role": role, "content": [{"type": "text", "text": text}]})
 
     # Check for unused media files
@@ -205,13 +204,14 @@ def _build_messages(item: Dict[str, Any], base_path: Path) -> List[Dict[str, Any
 def preprocess_qwen_visual(
     sources,
     processor,
+    using_cot: bool = True,
 ) -> Dict:
     if len(sources) != 1:
         raise ValueError(f"Expected 1 source, got {len(sources)}")
 
     source = sources[0]
     base_path = Path(source.get("data_path", ""))
-    messages = _build_messages(source, base_path)
+    messages = _build_messages(source, base_path, using_cot)
 
     full_result = processor.apply_chat_template(
         messages, tokenize=True, return_dict=True, return_tensors="pt"
@@ -393,6 +393,7 @@ class LazySupervisedDataset(Dataset):
         data_dict = preprocess_qwen_visual(
             sources,
             self.processor,
+            self.data_args.using_cot,
         )
 
         seq_len = data_dict["input_ids"][0].size(0)
