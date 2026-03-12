@@ -2,7 +2,7 @@ from transformers import Qwen3VLForConditionalGeneration, AutoProcessor
 
 # default: Load the model on the available device(s)
 model = Qwen3VLForConditionalGeneration.from_pretrained(
-    "output/qwen3vl-2b-baseline/checkpoint-158", dtype="auto", device_map="auto"
+    "output/qwen3vl-2b-baseline/checkpoint-1800", dtype="auto", device_map="auto"
 )
 
 processor = AutoProcessor.from_pretrained("output/qwen3vl-2b-baseline")
@@ -13,7 +13,7 @@ messages = [
         "content": [
             {
                 "type": "video",
-                "video": "data/videos/train_0/0.mp4",
+                "video": "data/videos/eval_0/0.mp4",
             },
             {
                 "type": "text", 

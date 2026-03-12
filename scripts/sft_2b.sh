@@ -2,9 +2,9 @@
 
 # Distributed training configuration
 MASTER_ADDR=${MASTER_ADDR:-"127.0.0.1"}
-MASTER_PORT=${MASTER_PORT:-$(shuf -i 20001-29999 -n 1)}
+MASTER_PORT=${MASTER_PORT:-"12346"}
 NNODES=${WORLD_SIZE:-1}
-NPROC_PER_NODE=${NPROC_PER_NODE:-4}
+NPROC_PER_NODE=${NPROC_PER_NODE:-8}
 
 # DeepSpeed configuration
 deepspeed=./scripts/zero3.json
@@ -24,7 +24,7 @@ entry_file=qwenvl/train/train_qwen.py
 datasets=videoreward
 
 # Output configuration
-run_name="qwen3vl-2b-baseline"
+run_name="qwen3vl-2b-baseline-wocot"
 output_dir=./output/${run_name}
 
 # Training arguments
@@ -36,7 +36,7 @@ args="
     --tune_mm_vision False \
     --tune_mm_mlp True \
     --tune_mm_llm True \
-    --using_cot True \
+    --using_cot False \
     --bf16 \
     --output_dir ${output_dir} \
     --num_train_epochs 2 \

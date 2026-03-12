@@ -1,6 +1,8 @@
 *.pyc
+occ_gpu*
 
 output
 wandb
 
 data
+eval_results

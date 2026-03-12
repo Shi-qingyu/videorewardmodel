@@ -1,3 +1,4 @@
+import os
 import json
 
 
@@ -24,7 +25,7 @@ def load_eval_data(annotation_path):
 
     for example in examples:
         message = message_template.copy()
-        message["content"][0]["video"] = example["videos"][0]
+        message["content"][0]["video"] = os.path.join("data", example["videos"][0])
         message["content"][1]["text"] = example["conversations"][0]["value"]
         ground_truth = example["conversations"][1]["value"]
         outputs.append(message)
