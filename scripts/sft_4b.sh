@@ -2,29 +2,30 @@
 
 # Distributed training configuration
 MASTER_ADDR=${MASTER_ADDR:-"127.0.0.1"}
-MASTER_PORT=${MASTER_PORT:-$(shuf -i 20001-29999 -n 1)}
+MASTER_PORT=${MASTER_PORT:-"12346"}
 NNODES=${WORLD_SIZE:-1}
+NPROC_PER_NODE=${NPROC_PER_NODE:-8}
 
 # DeepSpeed configuration
 deepspeed=./scripts/zero3.json
 
 # Model configuration
-llm=Qwen/Qwen2.5-VL-7B-Instruct  # Using HuggingFace model ID
+llm=Qwen/Qwen3-VL-4B-Instruct  # Using HuggingFace model ID
 
 # Training hyperparameters
-lr=2e-7
-batch_size=4
+lr=5e-5
+batch_size=2
 grad_accum_steps=4
 
 # Training entry point
 entry_file=qwenvl/train/train_qwen.py
 
 # Dataset configuration (replace with public dataset names)
-datasets=public_dataset1,public_dataset2
+datasets=videoreward
 
 # Output configuration
-run_name="qwen2vl-baseline"
-output_dir=./output
+run_name="qwen3vl-8b-baseline"
+output_dir=./output/${run_name}
 
 # Training arguments
 args="
@@ -35,9 +36,10 @@ args="
     --tune_mm_vision False \
     --tune_mm_mlp True \
     --tune_mm_llm True \
+    --using_cot True \
     --bf16 \
     --output_dir ${output_dir} \
-    --num_train_epochs 0.5 \
+    --num_train_epochs 2 \
     --per_device_train_batch_size ${batch_size} \
     --per_device_eval_batch_size $((batch_size*2)) \
     --gradient_accumulation_steps ${grad_accum_steps} \
@@ -55,7 +57,7 @@ args="
     --logging_steps 1 \
     --model_max_length 8192 \
     --gradient_checkpointing True \
-    --dataloader_num_workers 4 \
+    --dataloader_num_workers 8 \
     --run_name ${run_name} \
     --report_to wandb"
 

@@ -10,11 +10,11 @@ NPROC_PER_NODE=${NPROC_PER_NODE:-8}
 deepspeed=./scripts/zero3.json
 
 # Model configuration
-llm=Qwen/Qwen3-VL-2B-Instruct  # Using HuggingFace model ID
+llm=Qwen/Qwen3-VL-8B-Instruct  # Using HuggingFace model ID
 
 # Training hyperparameters
 lr=5e-5
-batch_size=4
+batch_size=1
 grad_accum_steps=4
 
 # Training entry point
@@ -57,7 +57,7 @@ args="
     --logging_steps 1 \
     --model_max_length 8192 \
     --gradient_checkpointing True \
-    --dataloader_num_workers 4 \
+    --dataloader_num_workers 8 \
     --run_name ${run_name} \
     --report_to wandb"
 
